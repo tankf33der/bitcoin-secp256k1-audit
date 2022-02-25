@@ -94,6 +94,45 @@ int main(void) {
     return_val = secp256k1_ecdsa_signature_serialize_compact(ctx, serialized_signature, &sig);
     assert(return_val);
 
+   /*** Verification ***/
+
+    /* Deserialize the signature. This will return 0 if the signature can't be parsed correctly. */
+    if (!secp256k1_ecdsa_signature_parse_compact(ctx, &sig, serialized_signature)) {
+        printf("Failed parsing the signature\n");
+        return 1;
+    }
+
+    /* Deserialize the public key. This will return 0 if the public key can't be parsed correctly. */
+    if (!secp256k1_ec_pubkey_parse(ctx, &pubkey, compressed_pubkey, sizeof(compressed_pubkey))) {
+        printf("Failed parsing the public key\n");
+        return 1;
+    }
+
+    /* Verify a signature. This will return 1 if it's valid and 0 if it's not. */
+    is_signature_valid = secp256k1_ecdsa_verify(ctx, &sig, msg_hash, &pubkey);
+
+    printf("Is the signature valid? %s\n", is_signature_valid ? "true" : "false");
+    printf("Secret Key: ");
+    print_hex(seckey, sizeof(seckey));
+    printf("Public Key: ");
+    print_hex(compressed_pubkey, sizeof(compressed_pubkey));
+    printf("Signature: ");
+    print_hex(serialized_signature, sizeof(serialized_signature));
+
+
+    /* This will clear everything from the context and free the memory */
+    secp256k1_context_destroy(ctx);
+
+    /* It's best practice to try to clear secrets from memory after using them.
+     * This is done because some bugs can allow an attacker to leak memory, for
+     * example through "out of bounds" array access (see Heartbleed), Or the OS
+     * swapping them to disk. Hence, we overwrite the secret key buffer with zeros.
+     *
+     * TODO: Prevent these writes from being optimized out, as any good compiler
+     * will remove any writes that aren't used. */
+    memset(seckey, 0, sizeof(seckey));
+
+    return 0;
 
 
     return 0;
