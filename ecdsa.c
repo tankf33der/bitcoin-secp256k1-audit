@@ -1,3 +1,5 @@
+
+
 /*************************************************************************
  * Written in 2020-2022 by Elichai Turkel                                *
  * To the extent possible under law, the author(s) have dedicated all    *
@@ -111,6 +113,7 @@ int main(void) {
     /* Verify a signature. This will return 1 if it's valid and 0 if it's not. */
     is_signature_valid = secp256k1_ecdsa_verify(ctx, &sig, msg_hash, &pubkey);
 
+/*
     printf("Is the signature valid? %s\n", is_signature_valid ? "true" : "false");
     printf("Secret Key: ");
     print_hex(seckey, sizeof(seckey));
@@ -118,10 +121,10 @@ int main(void) {
     print_hex(compressed_pubkey, sizeof(compressed_pubkey));
     printf("Signature: ");
     print_hex(serialized_signature, sizeof(serialized_signature));
-
+*/
 
     /* This will clear everything from the context and free the memory */
-    secp256k1_context_destroy(ctx);
+//    secp256k1_context_destroy(ctx);
 
     /* It's best practice to try to clear secrets from memory after using them.
      * This is done because some bugs can allow an attacker to leak memory, for
@@ -130,10 +133,7 @@ int main(void) {
      *
      * TODO: Prevent these writes from being optimized out, as any good compiler
      * will remove any writes that aren't used. */
-    memset(seckey, 0, sizeof(seckey));
-
-    return 0;
-
+    //memset(seckey, 0, sizeof(seckey));
 
     return 0;
 }
