@@ -80,5 +80,21 @@ int main(void) {
     /* Should be the same size as the size of the output, because we passed a 33 byte array. */
     assert(len == sizeof(compressed_pubkey));
 
+   /*** Signing ***/
+
+    /* Generate an ECDSA signature `noncefp` and `ndata` allows you to pass a
+     * custom nonce function, passing `NULL` will use the RFC-6979 safe default.
+     * Signing with a valid context, verified secret key
+     * and the default nonce function should never fail. */
+    return_val = secp256k1_ecdsa_sign(ctx, &sig, msg_hash, seckey, NULL, NULL);
+    assert(return_val);
+
+    /* Serialize the signature in a compact form. Should always return 1
+     * according to the documentation in secp256k1.h. */
+    return_val = secp256k1_ecdsa_signature_serialize_compact(ctx, serialized_signature, &sig);
+    assert(return_val);
+
+
+
     return 0;
 }
