@@ -111,7 +111,7 @@ int main(void) {
     }
 
     /* Verify a signature. This will return 1 if it's valid and 0 if it's not. */
-    is_signature_valid = secp256k1_ecdsa_verify(ctx, &sig, msg_hash, &pubkey);
+//    is_signature_valid = secp256k1_ecdsa_verify(ctx, &sig, msg_hash, &pubkey);
 
 /*
     printf("Is the signature valid? %s\n", is_signature_valid ? "true" : "false");
