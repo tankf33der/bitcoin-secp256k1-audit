@@ -204,7 +204,7 @@ static SECP256K1_INLINE void secp256k1_memczero(void *s, size_t len, int flag) {
     /* Access flag with a volatile-qualified lvalue.
        This prevents clang from figuring out (after inlining) that flag can
        take only be 0 or 1, which leads to variable time code. */
-    volatile int vflag = flag;
+    int vflag = flag;
     unsigned char mask = -(unsigned char) vflag;
     while (len) {
         *p &= ~mask;
