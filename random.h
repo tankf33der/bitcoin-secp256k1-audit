@@ -31,36 +31,29 @@
 #include <stddef.h>
 #include <limits.h>
 #include <stdio.h>
+#include <stdint.h>
+
+
+uint64_t random_state = 12345;
+
+// Pseudo-random 64 bit number, based on xorshift*
+uint64_t rand64(void)
+{
+    random_state ^= random_state >> 12;
+    random_state ^= random_state << 25;
+    random_state ^= random_state >> 27;
+    return random_state * 0x2545F4914F6CDD1D; // magic constant
+}
 
 
 /* Returns 1 on success, and 0 on failure. */
 static int fill_random(unsigned char* data, size_t size) {
-#if defined(_WIN32)
-    NTSTATUS res = BCryptGenRandom(NULL, data, size, BCRYPT_USE_SYSTEM_PREFERRED_RNG);
-    if (res != STATUS_SUCCESS || size > ULONG_MAX) {
-        return 0;
-    } else {
-        return 1;
+	size_t i;
+
+    for (i = 0; i < size; i++) {
+       data[i] = (uint8_t)rand64();
     }
-#elif defined(__linux__) || defined(__FreeBSD__)
-    /* If `getrandom(2)` is not available you should fallback to /dev/urandom */
-    ssize_t res = getrandom(data, size, 0);
-    if (res < 0 || (size_t)res != size ) {
-        return 0;
-    } else {
-        return 1;
-    }
-#elif defined(__APPLE__) || defined(__OpenBSD__)
-    /* If `getentropy(2)` is not available you should fallback to either
-     * `SecRandomCopyBytes` or /dev/urandom */
-    int res = getentropy(data, size);
-    if (res == 0) {
-        return 1;
-    } else {
-        return 0;
-    }
-#endif
-    return 0;
+	return 1;
 }
 
 static void print_hex(unsigned char* data, size_t size) {
