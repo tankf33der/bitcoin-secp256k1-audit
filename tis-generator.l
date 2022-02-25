@@ -16,11 +16,11 @@
    *M
    (quote
       sparc_64 sparc_32
-      # x86_32 x86_64 x86_16
-      # armeb_eabi arm_eabi aarch64 aarch64eb
-      # rv64ifdq rv32ifdq
-      # mips_o32 mips_n32 mips_64 mipsel_64
-      # mipsel_n32 apple_ppc_32
+      x86_32 x86_64 x86_16
+      armeb_eabi arm_eabi aarch64 aarch64eb
+      rv64ifdq rv32ifdq
+      mips_o32 mips_n32 mips_64 mipsel_64
+      mipsel_n32 apple_ppc_32
    )
    *F
    (quote
