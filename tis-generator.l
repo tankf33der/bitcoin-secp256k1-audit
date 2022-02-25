@@ -5,7 +5,7 @@
    (prinl ",")
    (printsp "files" ': "all")
    (prinl ",")
-   (printsp "cpp-extra-args" ': "-I. ")
+   (printsp "cpp-extra-args" ': "-DUSE_FORCE_WIDEMUL_INT64 -I. ")
    (prinl ",")
    (printsp "machdep" ': (text M))
    (prinl ",")
