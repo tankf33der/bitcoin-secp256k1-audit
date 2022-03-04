@@ -5,7 +5,7 @@
    (prinl ",")
    (printsp "files" ': "all")
    (prinl ",")
-   (printsp "cpp-extra-args" ': "-DUSE_FORCE_WIDEMUL_INT64 -I. ")
+   (printsp "cpp-extra-args" ': "-DSECP256K1_BIG_ENDIAN -DUSE_FORCE_WIDEMUL_INT64 -I. ")
    (prinl ",")
    (printsp "machdep" ': (text M))
    (prinl ",")
@@ -15,7 +15,7 @@
 (setq
    *M
    (quote
-      x86_32 x86_64
+      sparc_64 x86_32
 
       # sparc_64 sparc_32
       # x86_32 x86_64 x86_16
